@@ -1,0 +1,410 @@
+# -*-Perl-*-
+
+# msbuild-RunMSBuild.ntest -
+#
+# ECMSBuild
+#
+# Copyright (c) 2005-2010 Electric Cloud, Inc.
+# All rights reserved
+
+use strict;
+use ECTest;
+use ECSelenium;
+
+ 
+# system tests
+
+
+require "$::gTestFileDir/../../EC-MSBuild/systemtest/msbuild-common.ntest";
+
+
+$::grunMSBuildCreated = 0;
+$::gProjectImported = 0;
+
+#stores the result wheter the result of the procedure is success or error
+my $outcome = "";
+
+
+
+
+sub importProject() {
+    assertOK($::N->import(
+                     { file =>"$::gTestFileDir/MSBuildTests.xml",
+               path  => "/projects/MSBuildTests",
+               force => 1
+             } ), "import runMSBuildCommandLine");
+   
+   assertOK($::N->getProcedure("MSBuildTests", "MSBuildAllOptionsCommand"),"MSBuildAllOptionsCommand procedure exists");
+   assertOK($::N->getProcedure("MSBuildTests", "MSBuildMoreThanOneTarget"),"MSBuildMoreThanOneTarget procedure exists");
+   assertOK($::N->getProcedure("MSBuildTests", "MSBuildProperty"),"MSBuildProperty procedure exists");
+   assertOK($::N->getProcedure("MSBuildTests", "MSBuildSimpleProjectCommand"),"MSBuildSimpleProjectCommand procedure exists");
+   assertOK($::N->getProcedure("MSBuildTests", "MSBuildWithOneLog"),"MSBuildWithOneLog procedure exists");
+   assertOK($::N->getProcedure("MSBuildTests", "MSBuildWithOneTarget"),"MSBuildWithOneTarget procedure exists");
+   assertOK($::N->getProcedure("MSBuildTests", "MSBuildWithOneTarget"),"MSBuildWithOneTarget procedure exists");
+   
+    $::gProjectImported = 1;
+}
+
+sub doSetup() {
+    if(! $::gProjectImported) {
+        importProject();
+    }
+}
+ 
+#MSBuildAllOptionsCommand
+ 
+ ntest "MSBuildAllOptionsCommand", {}, sub {
+      doSetup();
+      # run test job
+     
+         my $xpath = $::N->runProcedure("MSBuildTests", 
+                 { procedureName => "MSBuildAllOptionsCommand",
+                 pollInterval  => '1',
+                 timeout => 600,
+                      actualParameter => [
+                     
+                     ]
+          });
+          
+     # make sure it finished
+             my $jobId = 0;
+             my $status = "";
+             
+             assertOK($xpath, "runProcedure with errors");
+             if ($xpath) {
+                 $jobId  = $xpath->findvalue("//jobId");
+                 $status = $xpath->findvalue("//status");
+                 $outcome = $xpath->findvalue("//outcome");
+         
+                 assertTrue($jobId && $jobId ne "",'valid job id');
+                 assertEq('completed',$status,"job $jobId complete");
+         
+                 #abort if job did not finish
+                 if ($status ne "completed") {
+                     assertOK($::N->abortJob($jobId, {force => 1}));
+                 }
+             }
+   # get the job details
+     $xpath = $::N->getJobDetails($jobId);
+ 
+     # write the job details to a file in the test directory
+     writeFile("$::gCurrentTestDir/jobDetails.log","====start Job Details====\n$xpath->{_xml}\n\n====end job details===\n\n");
+ 
+     # get the value of the msbuildCommandLine property
+     my $cmd = $xpath->findvalue("//property[propertyName='msbuildCommandLine']/value");
+ 
+ 
+     # get the value of the msbuildWorkingDir property
+     my $dir = $xpath->findvalue("//property[propertyName='msbuildWorkingDir']/value");
+ 
+     # make sure the $cmd and $dir are what was expected
+     assertEq('"MSBuild.exe" /nologo /target:CommanderMessage /property:Configuration=Release /logger:FileLogger,Microsoft.Build.Engine;logfile=logger.log BuildApp.csproj /noautoresponse', $cmd, "msbuild command line");
+     assertEq('C:\BuildApp\BuildApp', $dir, "msbuild working directory");
+  };
+  
+  #MSBuildMoreThanOneTarget
+ 
+ ntest "MSBuildMoreThanOneTarget", {}, sub {
+      doSetup();
+      # run test job
+     
+         my $xpath = $::N->runProcedure("MSBuildTests", 
+                 { procedureName => "MSBuildMoreThanOneTarget",
+                 pollInterval  => '1',
+                 timeout => 600,
+                      actualParameter => [
+                     
+                     ]
+          });
+          
+     # make sure it finished
+             my $jobId = 0;
+             my $status = "";
+             
+             assertOK($xpath, "runProcedure with errors");
+             if ($xpath) {
+                 $jobId  = $xpath->findvalue("//jobId");
+                 $status = $xpath->findvalue("//status");
+                 $outcome = $xpath->findvalue("//outcome");
+         
+                 assertTrue($jobId && $jobId ne "",'valid job id');
+                 assertEq('completed',$status,"job $jobId complete");
+         
+                 #abort if job did not finish
+                 if ($status ne "completed") {
+                     assertOK($::N->abortJob($jobId, {force => 1}));
+                 }
+             }
+   # get the job details
+     $xpath = $::N->getJobDetails($jobId);
+ 
+     # write the job details to a file in the test directory
+     writeFile("$::gCurrentTestDir/jobDetails.log","====start Job Details====\n$xpath->{_xml}\n\n====end job details===\n\n");
+ 
+     # get the value of the msbuildCommandLine property
+     my $cmd = $xpath->findvalue("//property[propertyName='msbuildCommandLine']/value");
+ 
+ 
+     # get the value of the msbuildWorkingDir property
+     my $dir = $xpath->findvalue("//property[propertyName='msbuildWorkingDir']/value");
+ 
+     # make sure the $cmd and $dir are what was expected
+     assertEq('"MSBuild.exe" /nologo /target:CommanderMessage,WorkingProperties BuildApp.csproj', $cmd, "msbuild command line");
+     assertEq('C:\BuildApp\BuildApp', $dir, "msbuild working directory");
+  };
+  
+   #MSBuildProperty
+ 
+ ntest "MSBuildProperty", {}, sub {
+      doSetup();
+      # run test job
+     
+         my $xpath = $::N->runProcedure("MSBuildTests", 
+                 { procedureName => "MSBuildProperty",
+                 pollInterval  => '1',
+                 timeout => 600,
+                      actualParameter => [
+                     
+                     ]
+          });
+          
+     # make sure it finished
+             my $jobId = 0;
+             my $status = "";
+             
+             assertOK($xpath, "runProcedure with errors");
+             if ($xpath) {
+                 $jobId  = $xpath->findvalue("//jobId");
+                 $status = $xpath->findvalue("//status");
+                 $outcome = $xpath->findvalue("//outcome");
+         
+                 assertTrue($jobId && $jobId ne "",'valid job id');
+                 assertEq('completed',$status,"job $jobId complete");
+         
+                 #abort if job did not finish
+                 if ($status ne "completed") {
+                     assertOK($::N->abortJob($jobId, {force => 1}));
+                 }
+             }
+   # get the job details
+     $xpath = $::N->getJobDetails($jobId);
+ 
+     # write the job details to a file in the test directory
+     writeFile("$::gCurrentTestDir/jobDetails.log","====start Job Details====\n$xpath->{_xml}\n\n====end job details===\n\n");
+ 
+     # get the value of the msbuildCommandLine property
+     my $cmd = $xpath->findvalue("//property[propertyName='msbuildCommandLine']/value");
+ 
+ 
+     # get the value of the msbuildWorkingDir property
+     my $dir = $xpath->findvalue("//property[propertyName='msbuildWorkingDir']/value");
+ 
+     # make sure the $cmd and $dir are what was expected
+     assertEq('"MSBuild.exe" /nologo /target:WorkingProperties /property:Configuration=Release BuildApp.csproj', $cmd, "msbuild command line");
+     assertEq('C:\BuildApp\BuildApp', $dir, "msbuild working directory");
+  };
+  
+  
+   #MSBuildSimpleProjectCommand
+ 
+ ntest "MSBuildSimpleProjectCommand", {}, sub {
+      doSetup();
+      # run test job
+     
+         my $xpath = $::N->runProcedure("MSBuildTests", 
+                 { procedureName => "MSBuildSimpleProjectCommand",
+                 pollInterval  => '1',
+                 timeout => 600,
+                      actualParameter => [
+                     
+                     ]
+          });
+          
+     # make sure it finished
+             my $jobId = 0;
+             my $status = "";
+             
+             assertOK($xpath, "runProcedure with errors");
+             if ($xpath) {
+                 $jobId  = $xpath->findvalue("//jobId");
+                 $status = $xpath->findvalue("//status");
+                 $outcome = $xpath->findvalue("//outcome");
+         
+                 assertTrue($jobId && $jobId ne "",'valid job id');
+                 assertEq('completed',$status,"job $jobId complete");
+         
+                 #abort if job did not finish
+                 if ($status ne "completed") {
+                     assertOK($::N->abortJob($jobId, {force => 1}));
+                 }
+             }
+   # get the job details
+     $xpath = $::N->getJobDetails($jobId);
+ 
+     # write the job details to a file in the test directory
+     writeFile("$::gCurrentTestDir/jobDetails.log","====start Job Details====\n$xpath->{_xml}\n\n====end job details===\n\n");
+ 
+     # get the value of the msbuildCommandLine property
+     my $cmd = $xpath->findvalue("//property[propertyName='msbuildCommandLine']/value");
+ 
+ 
+     # get the value of the msbuildWorkingDir property
+     my $dir = $xpath->findvalue("//property[propertyName='msbuildWorkingDir']/value");
+ 
+     # make sure the $cmd and $dir are what was expected
+     assertEq('"MSBuild.exe" /nologo BuildApp.csproj', $cmd, "msbuild command line");
+     assertEq('C:\BuildApp\BuildApp', $dir, "msbuild working directory");
+  };
+  #MSBuildSimpleProjectCommand
+ 
+ ntest "MSBuildWithOneLog", {}, sub {
+      doSetup();
+      # run test job
+     
+         my $xpath = $::N->runProcedure("MSBuildTests", 
+                 { procedureName => "MSBuildWithOneLog",
+                 pollInterval  => '1',
+                 timeout => 600,
+                      actualParameter => [
+                     
+                     ]
+          });
+          
+     # make sure it finished
+             my $jobId = 0;
+             my $status = "";
+             
+             assertOK($xpath, "runProcedure with errors");
+             if ($xpath) {
+                 $jobId  = $xpath->findvalue("//jobId");
+                 $status = $xpath->findvalue("//status");
+                 $outcome = $xpath->findvalue("//outcome");
+         
+                 assertTrue($jobId && $jobId ne "",'valid job id');
+                 assertEq('completed',$status,"job $jobId complete");
+         
+                 #abort if job did not finish
+                 if ($status ne "completed") {
+                     assertOK($::N->abortJob($jobId, {force => 1}));
+                 }
+             }
+   # get the job details
+     $xpath = $::N->getJobDetails($jobId);
+ 
+     # write the job details to a file in the test directory
+     writeFile("$::gCurrentTestDir/jobDetails.log","====start Job Details====\n$xpath->{_xml}\n\n====end job details===\n\n");
+ 
+     # get the value of the msbuildCommandLine property
+     my $cmd = $xpath->findvalue("//property[propertyName='msbuildCommandLine']/value");
+ 
+ 
+     # get the value of the msbuildWorkingDir property
+     my $dir = $xpath->findvalue("//property[propertyName='msbuildWorkingDir']/value");
+ 
+     # make sure the $cmd and $dir are what was expected
+     assertEq('"MSBuild.exe" /nologo /target:CommanderMessage,WorkingProperties /logger:FileLogger,Microsoft.Build.Engine;logfile=logger.log BuildApp.csproj', $cmd, "msbuild command line");
+     assertEq('C:\BuildApp\BuildApp', $dir, "msbuild working directory");
+  };
+  
+  
+  #MSBuildWithOneTarget
+   ntest "MSBuildWithOneTarget", {}, sub {
+      doSetup();
+      # run test job
+     
+         my $xpath = $::N->runProcedure("MSBuildTests", 
+                 { procedureName => "MSBuildWithOneTarget",
+                 pollInterval  => '1',
+                 timeout => 600,
+                      actualParameter => [
+                     
+                     ]
+          });
+          
+     # make sure it finished
+             my $jobId = 0;
+             my $status = "";
+             
+             assertOK($xpath, "runProcedure with errors");
+             if ($xpath) {
+                 $jobId  = $xpath->findvalue("//jobId");
+                 $status = $xpath->findvalue("//status");
+                 $outcome = $xpath->findvalue("//outcome");
+         
+                 assertTrue($jobId && $jobId ne "",'valid job id');
+                 assertEq('completed',$status,"job $jobId complete");
+         
+                 #abort if job did not finish
+                 if ($status ne "completed") {
+                     assertOK($::N->abortJob($jobId, {force => 1}));
+                 }
+             }
+   # get the job details
+     $xpath = $::N->getJobDetails($jobId);
+ 
+     # write the job details to a file in the test directory
+     writeFile("$::gCurrentTestDir/jobDetails.log","====start Job Details====\n$xpath->{_xml}\n\n====end job details===\n\n");
+ 
+     # get the value of the msbuildCommandLine property
+     my $cmd = $xpath->findvalue("//property[propertyName='msbuildCommandLine']/value");
+ 
+ 
+     # get the value of the msbuildWorkingDir property
+     my $dir = $xpath->findvalue("//property[propertyName='msbuildWorkingDir']/value");
+ 
+     # make sure the $cmd and $dir are what was expected
+     assertEq('"MSBuild.exe" /nologo /target:CommanderMessage BuildApp.csproj', $cmd, "msbuild command line");
+     assertEq('C:\BuildApp\BuildApp', $dir, "msbuild working directory");
+  };
+  
+  
+  
+#withAdditionalOptions
+   ntest "withAdditionalOptions", {}, sub {
+      doSetup();
+      # run test job
+     
+         my $xpath = $::N->runProcedure("MSBuildTests", 
+                 { procedureName => "withAdditionalOptions",
+                 pollInterval  => '1',
+                 timeout => 600,
+                      actualParameter => [
+                     
+                     ]
+          });
+          
+     # make sure it finished
+             my $jobId = 0;
+             my $status = "";
+             
+             assertOK($xpath, "runProcedure with errors");
+             if ($xpath) {
+                 $jobId  = $xpath->findvalue("//jobId");
+                 $status = $xpath->findvalue("//status");
+                 $outcome = $xpath->findvalue("//outcome");
+         
+                 assertTrue($jobId && $jobId ne "",'valid job id');
+                 assertEq('completed',$status,"job $jobId complete");
+         
+                 #abort if job did not finish
+                 if ($status ne "completed") {
+                     assertOK($::N->abortJob($jobId, {force => 1}));
+                 }
+             }
+   # get the job details
+     $xpath = $::N->getJobDetails($jobId);
+ 
+     # write the job details to a file in the test directory
+     writeFile("$::gCurrentTestDir/jobDetails.log","====start Job Details====\n$xpath->{_xml}\n\n====end job details===\n\n");
+ 
+     # get the value of the msbuildCommandLine property
+     my $cmd = $xpath->findvalue("//property[propertyName='msbuildCommandLine']/value");
+ 
+ 
+     # get the value of the msbuildWorkingDir property
+     my $dir = $xpath->findvalue("//property[propertyName='msbuildWorkingDir']/value");
+ 
+     # make sure the $cmd and $dir are what was expected
+     assertEq('"MSBuild.exe" /nologo /target:CommanderMessage BuildApp.csproj /noautoresponse', $cmd, "msbuild command line");
+     assertEq('C:\BuildApp\BuildApp', $dir, "msbuild working directory");
+  };

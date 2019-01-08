@@ -1,0 +1,57 @@
+    <editor>
+	<help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#runMSBuild
+		</help> 
+        <formElement>
+            <type>entry</type>
+            <label>Path to MSBuild executable</label>
+            <property>msbuild</property>
+            <documentation>Specify path to MSBuild.exe command, for example, 'C:\Program Files\MSBuild\MSBuild.exe'</documentation>
+            <required>1</required>
+            <value>MSBuild.exe</value>
+        </formElement>
+        <formElement>
+            <type>entry</type>
+			<label>Working Directory</label>
+            <property>workingDirectory</property>
+            <documentation>Specify the directory on which the MSBuild command will be executed.</documentation>
+            <required>1</required>
+        </formElement>
+        <formElement>
+            <type>entry</type>
+            <label>Project/Solution</label>
+            <property>projectSolution</property>
+            <documentation>Provide the name of the project or solution to build.</documentation>
+            <required>1</required>
+        </formElement>
+        <formElement>
+            <type>entry</type>
+            <label>Target</label>
+            <property>target</property>
+            <documentation>Provide the targets in this project to build. Use a semicolon or comma to separate multiple targets. If not target is provided 'Build' is used as default. (This is the command-line '/target:' option)</documentation>
+        </formElement>
+        <formElement>
+            <type>entry</type>
+            <label>Property</label>
+            <property>msbuildProperty</property>
+            <documentation>Set or override the specified project-level properties. Properties should be specified in 'name=value' form, where where 'name' is the property name and 'value' is the property value. Use a semicolon or comma to separate multiple properties. (This is the command-line '/property:' option)</documentation>
+        </formElement>
+        <formElement>
+            <type>entry</type>
+            <label>Logger</label>
+            <property>loggerOption</property>
+            <documentation>Specify the logger to use to log events from MSBuild. To specify multiple loggers, specify each logger separately.(This is the command-line '/l:FileLogger,Microsoft.Build.Engine;logfile=userProvidedValue' option)</documentation>
+        </formElement>
+        <formElement>
+            <type>entry</type>
+            <label>Postp Line</label>
+            <property>postpLine</property>
+            <documentation>Specify the postp command line to execute i.e. postp --loadProperty /myProject/postp_matchers. If this parameter is left blank the default postp matcher will be used.</documentation>
+        </formElement>
+        <formElement>
+            <type>entry</type>
+            <label>Additional Options</label>
+            <property>additionalOptions</property>
+            <required>0</required>
+            <documentation>Provide additional MSBuild options to execute, if desired.</documentation>
+        </formElement>
+      </editor>
