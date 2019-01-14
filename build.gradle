@@ -20,7 +20,7 @@ buildscript {
 
 group = 'com.electriccloud'
 description = 'Plugins : EC-MSBuild'
-version = '2.0.5'
+version = '2.0.6'
 
 apply plugin: 'flow-gradle-plugin'
 apply plugin: 'license'
