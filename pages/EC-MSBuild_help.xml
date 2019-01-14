@@ -33,7 +33,7 @@
         only if appropriate, such as FOSS - but not commercial software.
         -->
 
-		<p>July 1, 2015</p>
+		<p>January 14, 2019</p>
 		
         <p>MSBuild is a Microsoft build platform typically used in
         conjunction with Visual Studio. MSBuild version 2.0 is part
@@ -224,7 +224,9 @@
         <h1>Release Notes</h1>
 
         <h2>@PLUGIN_KEY@-2.0.5</h2>
-
+        <ul>
+            <li>The plugin icon has been updated.</li>
+        </ul>
         <ul>
             <li>Added parameter to specify path to MSBuild executable.</li>
             <li>Fixed handling of 'Target', 'Property' and 'Additional Options' parameters.</li>
