@@ -4,6 +4,7 @@
     <version>@PLUGIN_VERSION@</version>
     <label>@PLUGIN_KEY@</label>
     <category>Build</category>
+    <ecSupportLevel>10</ecSupportLevel>
     <description>MSBuild custom step</description>
     <author>Electric Cloud</author>
     <authorUrl>http://www.electric-cloud.com/support</authorUrl>
