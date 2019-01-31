@@ -33,7 +33,7 @@
         only if appropriate, such as FOSS - but not commercial software.
         -->
 
-		<p>January 14, 2019</p>
+		<p>Revised on January 31, 2019</p>
 		
         <p>MSBuild is a Microsoft build platform typically used in
         conjunction with Visual Studio. MSBuild version 2.0 is part
@@ -222,7 +222,10 @@
              alt="screenshot" /> 
 
         <h1>Release Notes</h1>
-
+        <h2>@PLUGIN_KEY@-2.0.6</h2>
+        <ul>
+            <li>Added metadata that is required for 9.0 release.</li>
+        </ul>
         <h2>@PLUGIN_KEY@-2.0.5</h2>
         <ul>
             <li>The plugin icon has been updated.</li>
@@ -273,3 +276,4 @@
     </div>
 </body>
 </html>
+
