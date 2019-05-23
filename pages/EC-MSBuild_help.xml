@@ -9,7 +9,7 @@
     <meta content="text/html; charset=us-ascii"
           http-equiv="content-type" />
 
-    <title>ElectricFlow Plugin for @PLUGIN_KEY@</title>
+    <title>CloudBees Flow Plugin for @PLUGIN_KEY@</title>
     <link rel="stylesheet"
           href="../../plugins/@PLUGIN_KEY@/pluginhelp.css"
           type="text/css"
@@ -33,7 +33,7 @@
         only if appropriate, such as FOSS - but not commercial software.
         -->
 
-		<p>Revised on January 31, 2019</p>
+		<p>Revised on May 23, 2019</p>
 		
         <p>MSBuild is a Microsoft build platform typically used in
         conjunction with Visual Studio. MSBuild version 2.0 is part
@@ -63,7 +63,7 @@
         <a href="http://msdn.microsoft.com/en-us/library/ms164311.aspx">
         MSBuild</a>.</p>
 
-        <h2>ElectricFlow Integration to MSBuild</h2>
+        <h2>CloudBees Flow Integration to MSBuild</h2>
         <!-- The integration description should answer the questions:
         How deep does our integration go? Why should I care? What general
         functionality does the plugin include? What functionality does
@@ -78,7 +78,7 @@
         funcionality to make the test more configurable according
         to specific needs.</p>
 
-        <p>ElectricFlow itself provides some advantages like
+        <p>CloudBees Flow itself provides some advantages like
         parameters checking, easy functionality selection using
         only check boxes or radio buttons, hitorical log reports,
         procedure duration statistics, simple credentials
@@ -222,6 +222,10 @@
              alt="screenshot" /> 
 
         <h1>Release Notes</h1>
+
+    <h2 id="2.0.7">@PLUGIN_KEY@ 2.0.7</h2>
+    <p>Renaming from "Electric Cloud" to "CloudBees"</p>
+
         <h2>@PLUGIN_KEY@-2.0.6</h2>
         <ul>
             <li>Added metadata that is required for 9.0 release.</li>
@@ -276,4 +280,3 @@
     </div>
 </body>
 </html>
-
