@@ -3,7 +3,7 @@
 my %runMSBuild = (
     label       => "MSBuild - Run Build",
     procedure   => "runMSBuild",
-    description => "Integrates MSBuild Build framework into Electric Commander",
+    description => "Integrates MSBuild Build framework into CloudBees CD",
     category    => "Build"
 );
 
