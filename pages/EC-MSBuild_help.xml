@@ -33,7 +33,7 @@
         only if appropriate, such as FOSS - but not commercial software.
         -->
 
-		<p>Revised on May 23, 2019</p>
+		<p>Revised on June 9, 2020</p>
 		
         <p>MSBuild is a Microsoft build platform typically used in
         conjunction with Visual Studio. MSBuild version 2.0 is part
@@ -226,7 +226,7 @@
         <h2>@PLUGIN_KEY@ 2.0.8</h2>
         <ul>
             <li>Renaming from "CloudBees Flow" to "CloudBees CD"</li>
-        </ul
+        </ul>
 
     <h2 id="2.0.7">@PLUGIN_KEY@ 2.0.7</h2>
     <p>Renaming from "Electric Cloud" to "CloudBees"</p>
