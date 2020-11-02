@@ -4,7 +4,6 @@
     <version>@PLUGIN_VERSION@</version>
     <label>@PLUGIN_KEY@</label>
     <category>Build</category>
-    <ecSupportLevel>10</ecSupportLevel>
     <description>MSBuild custom step</description>
     <author>CloudBees</author>
     <authorUrl>http://www.electric-cloud.com/support</authorUrl>
@@ -15,4 +14,5 @@
             <javascript>war/com.electriccloud.commander.plugins.EC_MSBuild.configure/com.electriccloud.commander.plugins.EC_MSBuild.configure.nocache.js</javascript>
         </component>
     </components>
+    <repositoryUrl>https://github.com/electric-cloud-community/EC-MSBuild</repositoryUrl>
 </plugin>
